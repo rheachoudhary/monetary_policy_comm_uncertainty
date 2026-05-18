@@ -17,14 +17,10 @@ theme_set(theme_classic() +
               plot.caption  = element_text(size = 11, hjust = 0)))
 
 
-# ------- file paths ---------------------------------------------------------
-dir <- "C:/Users/rheac/OneDrive - The University of Chicago/Research/monetary_policy/data"
 
-graph_output <- "C:/Users/rheac/OneDrive - The University of Chicago/Research/monetary_policy/graphs"
-
-# ------- load + merge -------------------------------------------------------
-rba <- fread(paste0(dir, "/rba_meta.csv"))
-fed <- fread(paste0(dir, "/fed_meta.csv"))
+# Clean data for plot -------------------------------------------------
+rba <- fread("data/rba_meta.csv")
+fed <- fread "data/fed_meta.csv")
 
 
 rba[, share_indec := share_indec * 100]
@@ -46,7 +42,9 @@ fed[, rollm_indec := rollapply(share_indec, width = 3, FUN = mean,
 fed[, rollm_cred  := rollapply(share_cred, width = 3, FUN = mean,
                                fill = NA, partial = TRUE, align = "right")]
 
-# ------- panel builders -----------------------------------------------------
+# Create panels -----------------------------------------------------
+
+# Colour scheme
 indec_colour <- "#1f4e78"
 cred_colour  <- "#8b1a1f"
 
@@ -78,7 +76,7 @@ p_rba_c <- make_panel(rba, "share_cred", "rollm_cred",cred_colour,
 p_fed_c <- make_panel(fed, "share_cred","rollm_cred", cred_colour,
                       "FOMC Commentary on Inflation Credibility", cred_max)
 
-# ------- combine via patchwork ---------------------------------------------
+# Combine ---------------------------------------------
 chart <- (p_rba_i | p_fed_i) /
   (p_rba_c | p_fed_c) +
   plot_annotation(
@@ -90,5 +88,5 @@ chart <- (p_rba_i | p_fed_i) /
 
 print(chart)
 
-ggsave(file.path(graph_output, "rba_vs_fed.png"),
+ggsave("graphs/rba_vs_fed.png",
        chart, width = 12, height = 12)

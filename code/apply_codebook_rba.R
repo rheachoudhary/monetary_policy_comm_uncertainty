@@ -8,9 +8,7 @@ library(data.table)
 library(rvest)
 library(stringi)
 
-output_path  <- "C:/Users/rheac/OneDrive - The University of Chicago/Research/monetary_policy/data"
-
-rba_minutes_html <- list.files("C:/Users/rheac/OneDrive - The University of Chicago/Research/monetary_policy/data/rba_minutes", 
+rba_minutes_html <- list.files("data/rba_minutes", 
                                pattern = "\\.html?$", full.names = TRUE)
 
 # 1: Parse -------------------------------------------------------
@@ -280,13 +278,13 @@ rba_sentences_dt[, c("credibility", "credibility_pattern", "credibility_hit") :=
 
 # 5. Save results ------------------------------------------------------
 
-fwrite(rba_sentences_dt, file.path(output_path, "rba_sentences.csv"))
+fwrite(rba_sentences_dt, "data/rba_sentences.csv")
 
 rba_indec_dt <- rba_sentences_dt[indecision == 1L]
-fwrite(rba_indec_dt, file.path(output_path, "rba_indecision.csv"))
+fwrite(rba_indec_dt, "data/rba_indecision.csv")
 
 rba_cred_dt <- rba_sentences_dt[credibility == 1L]
-fwrite(rba_cred_dt, file.path(output_path, "rba_credibility.csv"))
+fwrite(rba_cred_dt, "data/rba_credibility.csv")
 
 rba_meta_dt <- rba_sentences_dt[, .(
   year          = year[1],
@@ -298,4 +296,4 @@ rba_meta_dt <- rba_sentences_dt[, .(
 ), by = date]
 
 
-fwrite(rba_meta_dt, file.path(output_path, "rba_meta.csv"))
+fwrite(rba_meta_dt, "data/rba_meta.csv")

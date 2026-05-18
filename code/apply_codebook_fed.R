@@ -8,11 +8,9 @@ library(data.table)
 library(rvest)
 library(stringi)
 
-output_path  <- "C:/Users/rheac/OneDrive - The University of Chicago/Research/monetary_policy/data"
-
 # 1: Parse -------------------------------------------------------
 
-fed_minutes_html <- list.files("C:/Users/rheac/OneDrive - The University of Chicago/Research/monetary_policy/data/fed_minutes", 
+fed_minutes_html <- list.files("data/fed_minutes", 
                     pattern = "\\.htm$", full.names = TRUE)
 
 # Pull the date from each filename (Fed format: fomcminutesYYYYMMDD.htm)
@@ -382,16 +380,16 @@ fed_sentences_dt[, c("credibility", "credibility_pattern", "credibility_hit") :=
 
 # Write outputs -----------------------------------------------
 
-fwrite(fed_sentences_dt, file.path(output_path, "fomc_sentences.csv"))
+fwrite(fed_sentences_dt,"data/fomc_sentences.csv")
 
 # Indecision-only
 fed_indec_dt <- fed_sentences_dt[indecision == 1]
 
-fwrite(fed_indec_dt, file.path(output_path, "fomc_indecision.csv"))
+fwrite(fed_indec_dt,  "data/fomc_indecision.csv")
 
 # Credibility-only
 fed_cred_dt <- fed_sentences_dt[credibility == 1]
-fwrite(fed_cred_dt, file.path(output_path, "fomc_credibility.csv"))
+fwrite(fed_cred_dt, "data/fomc_credibility.csv")
 
 fed_meta_dt <- fed_sentences_dt[, .(
   year          = year[1],
@@ -404,4 +402,4 @@ fed_meta_dt <- fed_sentences_dt[, .(
 
 fed_meta_dt[, date := as.IDate(date)]
 
-fwrite(fed_meta_dt, file.path(output_path, "fed_meta.csv"))
+fwrite(fed_meta_dt,  "data/fed_meta.csv")

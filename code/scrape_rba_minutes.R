@@ -8,8 +8,7 @@ library(data.table)
 library(rvest)
 library(stringi)
 
-minutes_html   <- "C:/Users/rheac/OneDrive - The University of Chicago/Research/monetary_policy/data/rba_minutes"
-output_path  <- "C:/Users/rheac/OneDrive - The University of Chicago/Research/monetary_policy/data"
+minutes_html   <- "data/rba_minutes"
 UA <- "research-script/1.0 (academic; thesis on central bank communication)"
 
 
