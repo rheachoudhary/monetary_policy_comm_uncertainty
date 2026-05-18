@@ -20,7 +20,7 @@ theme_set(theme_classic() +
 
 # Clean data for plot -------------------------------------------------
 rba <- fread("data/rba_meta.csv")
-fed <- fread "data/fed_meta.csv")
+fed <- fread("data/fed_meta.csv")
 
 
 rba[, share_indec := share_indec * 100]
